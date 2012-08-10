@@ -22,8 +22,10 @@ class UserFixture extends AbstractFixture implements OrderedFixtureInterface {
             $manager->merge($this->getReference('language-en_GB')),
             $manager->merge($this->getReference('language-de_DE')),
         ));
-        $admin->setUserGroups(array($manager->merge($this->getReference('groups-dummy'))));
+        $admin->setUserGroups(array($manager->merge($this->getReference('groups-admin'))));
         $manager->persist($admin);
+
+        $this->addReference('users-admin', $admin);
 
         $user = new User;
         $user->setUsername('user');
@@ -36,6 +38,8 @@ class UserFixture extends AbstractFixture implements OrderedFixtureInterface {
         $manager->persist($user);
 
         $manager->flush();
+
+        $this->addReference('users-user', $user);
     }
 
     public function getOrder() {
